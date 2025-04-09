@@ -3,35 +3,36 @@ import { Share } from '@capacitor/share'
 
 export async function saveImageAsSticker(imageUrl) {
   try {
-    // Descargar la imagen
+    // Si estamos en un navegador web, usamos la API de descarga nativa
+    if (typeof window !== 'undefined' && !window.Capacitor) {
+      const link = document.createElement('a')
+      link.href = imageUrl
+      link.download = `sticker-${Date.now()}.png`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      return
+    }
+
+    // Si estamos en móvil, usamos Capacitor
     const response = await fetch(imageUrl)
     const blob = await response.blob()
-
-    // Convertir blob a base64
-    const reader = new FileReader()
     const base64Data = await new Promise((resolve) => {
-      reader.onloadend = () => resolve(reader.result)
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result.split(',')[1])
       reader.readAsDataURL(blob)
     })
 
-    // Guardar el archivo
-    const fileName = `sticker-${Date.now()}.webp`
-    const savedFile = await Filesystem.writeFile({
+    const fileName = `sticker-${Date.now()}.png`
+    await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
-      directory: Directory.Cache
+      directory: Directory.Documents,
     })
 
-    // Compartir como sticker de WhatsApp
-    await Share.share({
-      title: 'Compartir Sticker',
-      url: savedFile.uri,
-      dialogTitle: 'Compartir como sticker'
-    })
-
-    return savedFile.uri
+    return fileName
   } catch (error) {
     console.error('Error al guardar el sticker:', error)
-    throw error
+    throw new Error('No se pudo guardar el sticker')
   }
 } 
