@@ -1,11 +1,3 @@
 {
-  "version": 2,
-  "outputDirectory": "dist",
-  "buildCommand": "npm run vercel-build",
-  "installCommand": "npm install",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
+  "buildCommand": "npm run vercel-build"
+} 

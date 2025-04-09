@@ -7,42 +7,58 @@ console.log('📋 Node version:', process.version);
 console.log('📂 Working directory:', process.cwd());
 
 try {
-  console.log('🔨 Running build command...');
+  // Setup Vercel output directories
+  console.log('📂 Setting up Vercel output directories...');
+  const staticDir = './.vercel/output/static';
+  fs.mkdirSync(staticDir, { recursive: true });
+  
+  // Create config.json for Vercel
+  console.log('📝 Creating Vercel config.json...');
+  const configJson = {
+    "version": 3,
+    "routes": [
+      { "handle": "filesystem" },
+      { "src": "/assets/(.*)", "dest": "/assets/$1" },
+      { "src": "/(.*)", "dest": "/index.html" }
+    ]
+  };
+  fs.writeFileSync('./.vercel/output/config.json', JSON.stringify(configJson, null, 2));
+  
+  // Run Vite build directly into the Vercel output directory
+  console.log('🔨 Running Vite build directly to Vercel output directory...');
+  // Temporarily modify vite.config.js to output directly to .vercel/output/static
+  const viteConfigPath = './vite.config.js';
+  const originalViteConfig = fs.readFileSync(viteConfigPath, 'utf8');
+  
+  // Create a temporary modified config
+  const modifiedConfig = originalViteConfig.replace(
+    /outDir: ['"]dist['"],?/,
+    `outDir: './.vercel/output/static',`
+  );
+  
+  // Save the modified config
+  fs.writeFileSync(viteConfigPath, modifiedConfig);
+  
+  // Run the build
   execSync('vite build', { stdio: 'inherit' });
   
-  console.log('✅ Build completed successfully');
+  // Restore original config
+  fs.writeFileSync(viteConfigPath, originalViteConfig);
   
-  // Verify dist directory exists
-  if (fs.existsSync('./dist')) {
-    console.log('📁 Dist directory exists');
-    const files = fs.readdirSync('./dist');
-    console.log('📑 Files in dist:', files);
+  // Verify output directory has content
+  if (fs.existsSync(staticDir)) {
+    console.log('📁 Vercel output directory exists');
+    const files = fs.readdirSync(staticDir);
+    console.log('📑 Files in output directory:', files);
     
-    // Create .vercel/output/static directory if it doesn't exist
-    const outputDir = './.vercel/output/static';
-    console.log(`📂 Creating ${outputDir} directory...`);
-    fs.mkdirSync(outputDir, { recursive: true });
-    
-    // Copy all files from dist to .vercel/output/static
-    console.log('📋 Copying files from dist to .vercel/output/static...');
-    execSync(`cp -R ./dist/* ${outputDir}/`, { stdio: 'inherit' });
-    
-    // Create config.json file for Vercel
-    console.log('📝 Creating Vercel config.json...');
-    const configJson = {
-      "version": 3,
-      "routes": [
-        { "handle": "filesystem" },
-        { "src": "/assets/(.*)", "dest": "/assets/$1" },
-        { "src": "/(.*)", "dest": "/index.html" }
-      ]
-    };
-    
-    fs.writeFileSync('./.vercel/output/config.json', JSON.stringify(configJson, null, 2));
-    
-    console.log('✅ Files copied successfully');
+    if (files.length > 0) {
+      console.log('✅ Build completed successfully');
+    } else {
+      console.error('❌ Output directory is empty!');
+      process.exit(1);
+    }
   } else {
-    console.error('❌ Dist directory does not exist!');
+    console.error('❌ Output directory does not exist!');
     process.exit(1);
   }
 } catch (error) {
