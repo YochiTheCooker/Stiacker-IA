@@ -3,7 +3,6 @@
   "outputDirectory": "dist",
   "buildCommand": "npm run vercel-build",
   "installCommand": "npm install",
-  "cleanUrls": true,
   "routes": [
     { "handle": "filesystem" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
