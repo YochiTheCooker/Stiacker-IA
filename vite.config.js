@@ -11,7 +11,7 @@ export default defineConfig({
     assetsDir: 'assets',
     emptyOutDir: true,
     rollupOptions: {
-      input: 'src/main.js'
+      input: 'index.html'
     }
   }
 }) 
