@@ -12,53 +12,57 @@ try {
   const staticDir = './.vercel/output/static';
   fs.mkdirSync(staticDir, { recursive: true });
   
-  // Create config.json for Vercel
+  // Create config.json for Vercel - usando formato más simple
   console.log('📝 Creating Vercel config.json...');
   const configJson = {
     "version": 3,
     "routes": [
-      { "handle": "filesystem" },
-      { "src": "/assets/(.*)", "dest": "/assets/$1" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ],
+    "cleanUrls": true
   };
   fs.writeFileSync('./.vercel/output/config.json', JSON.stringify(configJson, null, 2));
   
-  // Run Vite build directly into the Vercel output directory
-  console.log('🔨 Running Vite build directly to Vercel output directory...');
-  // Temporarily modify vite.config.js to output directly to .vercel/output/static
-  const viteConfigPath = './vite.config.js';
-  const originalViteConfig = fs.readFileSync(viteConfigPath, 'utf8');
-  
-  // Create a temporary modified config
-  const modifiedConfig = originalViteConfig.replace(
-    /outDir: ['"]dist['"],?/,
-    `outDir: './.vercel/output/static',`
-  );
-  
-  // Save the modified config
-  fs.writeFileSync(viteConfigPath, modifiedConfig);
-  
-  // Run the build
+  // Realizar build normal primero para verificar
+  console.log('🔨 Running standard Vite build first...');
   execSync('vite build', { stdio: 'inherit' });
-  
-  // Restore original config
-  fs.writeFileSync(viteConfigPath, originalViteConfig);
-  
-  // Verify output directory has content
-  if (fs.existsSync(staticDir)) {
-    console.log('📁 Vercel output directory exists');
-    const files = fs.readdirSync(staticDir);
-    console.log('📑 Files in output directory:', files);
+
+  // Verificar que se haya creado el dist y tenga archivos
+  if (fs.existsSync('./dist') && fs.existsSync('./dist/index.html')) {
+    console.log('📁 Dist directory built successfully');
     
-    if (files.length > 0) {
-      console.log('✅ Build completed successfully');
+    // Copiar todos los archivos de dist a .vercel/output/static
+    console.log('📋 Copying files from dist to .vercel/output/static...');
+    execSync(`cp -R ./dist/* ${staticDir}/`, { stdio: 'inherit' });
+    
+    // Crear archivo _redirects para SPA en la carpeta de salida
+    console.log('📝 Creating SPA _redirects file...');
+    fs.writeFileSync(`${staticDir}/_redirects`, `/* /index.html 200`);
+    
+    // Verificar que index.html se haya copiado correctamente
+    if (fs.existsSync(`${staticDir}/index.html`)) {
+      console.log('✅ index.html copied successfully');
+      
+      // Imprimir el contenido del directorio para diagnóstico
+      console.log('📑 Files in output directory:');
+      const files = fs.readdirSync(staticDir);
+      console.log(files);
+      
+      // Verificar subdirectorios
+      if (files.includes('assets')) {
+        const assetFiles = fs.readdirSync(`${staticDir}/assets`);
+        console.log('📑 Files in assets directory:');
+        console.log(assetFiles);
+      }
     } else {
-      console.error('❌ Output directory is empty!');
+      console.error('❌ index.html not found in output directory!');
       process.exit(1);
     }
   } else {
-    console.error('❌ Output directory does not exist!');
+    console.error('❌ Dist directory or index.html not found!');
     process.exit(1);
   }
 } catch (error) {
