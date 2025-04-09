@@ -7,6 +7,9 @@ export default defineConfig({
     postcss: './postcss.config.cjs'
   },
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
     rollupOptions: {
       input: 'src/main.js'
     }
