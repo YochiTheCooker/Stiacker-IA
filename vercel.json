@@ -1,8 +1,12 @@
 {
-  "framework": "vite",
-  "buildCommand": "npm run vercel-build",
+  "version": 2,
   "outputDirectory": "dist",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "buildCommand": "npm run vercel-build",
+  "installCommand": "npm install",
+  "cleanUrls": true,
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
