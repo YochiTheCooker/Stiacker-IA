@@ -1,5 +1,4 @@
-import { Filesystem, Directory } from '@capacitor/filesystem'
-import { Share } from '@capacitor/share'
+
 
 export async function saveImageAsSticker(imageUrl) {
   try {
