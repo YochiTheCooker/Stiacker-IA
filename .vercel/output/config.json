@@ -5,11 +5,11 @@
       "handle": "filesystem"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/.*",
+      "dest": "/index.html",
+      "status": 200
     }
   ],
-  "cleanUrls": true,
   "output": {
     "path": ".vercel/output/static"
   }
