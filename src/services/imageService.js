@@ -1,4 +1,4 @@
-const API_URL = 'https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev'
+const API_URL = 'https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev'
 const API_KEY = import.meta.env.VITE_HUGGINGFACE_API_KEY
 
 export async function generateImage(prompt) {
