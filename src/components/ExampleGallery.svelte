@@ -20,7 +20,7 @@
     },
     {
       image: example4,
-      prompt: 'Un llama chef cocinando en una cocina profesional'
+      prompt: 'Un llama pintor creando una obra maestra'
     }
   ];
 </script>
