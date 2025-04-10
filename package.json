@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "vercel-build": "vite build && node ./vercel-setup.js"
+    "vercel-build": "vite build --outDir dist && node ./vercel-setup.js"
   },
   "dependencies": {
     "@sveltejs/adapter-vercel": "^3.0.0",
