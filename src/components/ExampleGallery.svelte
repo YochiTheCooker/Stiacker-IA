@@ -1,11 +1,17 @@
 <script>
   // Importar las imágenes directamente
   import example1 from '../assets/examples/example1.png';
+  import example2 from '../assets/examples/example2.png';
+
 
   const examples = [
     {
       image: example1,
       prompt: 'Gato astronauta!'
+    },
+    {
+      image: example2,
+      prompt: 'pato tejido!'
     }
   ];
 </script>
