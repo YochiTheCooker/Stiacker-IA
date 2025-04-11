@@ -1,16 +1,10 @@
-import { App } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 
 async function isWeb() {
-  if(App.getInfo){
-    try {
-      const info = await App.getInfo();
-      return info.platform === 'web';
-    } catch (error) {
-      console.error('Error getting app info:', error);
-      return false;
-    }
+  if (Capacitor.getPlatform) {
+    return Capacitor.getPlatform() === 'web';
   }
-  return false
+  return true
 }
 
 

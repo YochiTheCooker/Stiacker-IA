@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "serve": "serve -s dist",
     "build": "vite build",
     "preview": "vite preview",
     "android": "npx cap open android"
@@ -27,5 +28,8 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
   }
 }

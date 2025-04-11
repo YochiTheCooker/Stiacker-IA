@@ -5,6 +5,7 @@ export default defineConfig(({ mode }) => {
   loadEnv(mode, process.cwd(), "");
   return {
     plugins: [svelte()],
+    publicDir: 'public',
     css: {
       postcss: "./postcss.config.js",
     },

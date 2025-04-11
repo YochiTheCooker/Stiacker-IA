@@ -6,10 +6,10 @@
     import { generatedImage, isLoading, error } from '../stores/imageStore'
     import StickerForm from './forms/StickerForm.svelte'
     import StickerPreview from './StickerPreview.svelte'
-    import ExampleGallery from './ExampleGallery.svelte'
     import { fade, slide } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
     import Header from './ui/Header.svelte'
+    import ExampleGallery from './ExampleGallery.svelte'
 
     async function handleSubmit({ prompt }) {
       try {
@@ -36,7 +36,7 @@
 
   </script>
 
-  <div class="bg-white ">
+  <div class="bg-white" transition:fade={{ duration: 700 }}>
   {#if isWeb()}
     <Header class="w-full" />
     {/if}
@@ -62,10 +62,10 @@
             <section class="py-4"
                      in:slide={{ duration: 400, easing: quintOut }}
                      out:fade={{ duration: 200 }}>
-              <h2 class="flex justify-center text-xl font-semibold font-bold text-apple-gray text-center mb-4">
+              <h2 class="flex justify-center text-xl font-bold text-apple-gray text-center mb-4">
                 Inspiración para tus stickers
               </h2>
-              <ExampleGallery />
+              <ExampleGallery/>
             </section>
           {/if}
         </section>
