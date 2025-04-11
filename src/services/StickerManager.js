@@ -1,5 +1,3 @@
-// src/services/StickerManager.js
-
 import { Share } from '@capacitor/share';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
@@ -79,6 +77,9 @@ class StickerManager {
         }
 
     }
+
+
 }
 
-export default new StickerManager();
+const stickerManager = new StickerManager();
+export { stickerManager as default, stickerManager as StickerManager, stickerManager, stickerManager as createAndShareWhatsappSticker };

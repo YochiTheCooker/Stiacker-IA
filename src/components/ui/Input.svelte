@@ -20,7 +20,7 @@
       {placeholder}
       {required}
       bind:value
-      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all"
+      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all "
     />
   {:else}
     <input
@@ -29,7 +29,7 @@
       {placeholder}
       {required}
       bind:value
-      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all"
+      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all "
     />
   {/if}
 </div> 

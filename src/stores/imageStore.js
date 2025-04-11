@@ -4,6 +4,7 @@ export const generatedImage = writable(null)
 export const isLoading = writable(false)
 export const error = writable(null)
 
+export const selectedImageStore = writable(null);
 export const resetStores = () => {
   generatedImage.set(null)
   isLoading.set(false)

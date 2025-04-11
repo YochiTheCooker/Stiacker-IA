@@ -22,6 +22,9 @@
         ];
         manager = "web";
       };
+       android = {
+        manager = "flutter";
+      };
     };
   };
 }

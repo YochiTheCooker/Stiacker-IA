@@ -10,8 +10,10 @@
     "vercel-build": "npm install && npx vite build --outDir dist && node ./vercel-setup.js"
   },
   "dependencies": {
+    "@capacitor/android": "7.2.0",
     "@capacitor/cli": "7.2.0",
     "@capacitor/core": "7.2.0",
+    "@capacitor/filesystem": "7.0.1",
     "@capacitor/share": "7.0.1",
     "@sveltejs/adapter-vercel": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",

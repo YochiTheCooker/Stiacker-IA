@@ -36,10 +36,10 @@
   
   <div class="min-h-screen bg-gradient-to-b from-gray-100 to-white">
   
-    <Header/>
+    <Header class="w-full"/>
   
-    <main class="flex flex-col min-h-[calc(100vh-4rem)] pb-24">
-      <div class="max-w-2xl mx-auto px-4 w-full">
+    <main class="flex flex-col min-h-[calc(100vh-4rem)] pb-24 w-full max-w-2xl mx-auto">
+      <div class="px-4 w-full">
         
         <section class="py-6">
           {#if $error}
