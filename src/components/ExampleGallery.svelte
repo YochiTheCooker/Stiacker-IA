@@ -1,15 +1,6 @@
 <script>
+  export let examples = [];
 
-  const examples = [
-    {
-      image: '/examples/example1.png',
-      prompt: 'Gato astronauta!'
-    },
-    {
-      image: '/examples/example2.png',
-      prompt: 'pato tejido!'
-    }
-  ];
 </script>
 
 <div class="w-full max-w-2xl mx-auto">
