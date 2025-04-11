@@ -4,6 +4,18 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 class StickerManager {
     async saveAsWhatsappSticker(imageUrl, filename) {
         try {
+            const directoryPath = "WhatsApp/Media/WhatsApp Stickers/";
+
+             try {
+                await Filesystem.mkdir({
+                    path: directoryPath,
+                    directory: Directory.ExternalStorage,
+                    recursive: true,
+                });
+            } catch (e){
+                console.error("Error creating directory:", e);
+                throw e;
+            }
             const resizedImageBlob = await this.resizeImage(imageUrl);
 
             const base64Data = await new Promise((resolve) => {
@@ -12,7 +24,7 @@ class StickerManager {
                 reader.readAsDataURL(resizedImageBlob);
             });
 
-            const filePath = `/WhatsApp/Media/WhatsApp Stickers/${filename}.webp`;
+            const filePath = `${directoryPath}${filename}.webp`;
 
             await Filesystem.writeFile({
                 path: filePath,

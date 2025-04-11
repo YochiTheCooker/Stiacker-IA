@@ -23,7 +23,7 @@
         class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all"
       />
     </div>
-    <Button type="submit" loading={loading} fullWidth={false} class="px-6">
+    <Button type="submit" isloading={loading} fullWidth={false} class="px-6">
       {#if loading}
         <span>Cargando...</span>
       {:else}

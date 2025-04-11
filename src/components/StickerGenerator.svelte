@@ -2,6 +2,7 @@
 <script>
     import { generateImage } from '../services/imageService'
     import { saveImageAsSticker } from '../services/stickerService'
+    import { isWeb } from '../services/utils'
     import { generatedImage, isLoading, error } from '../stores/imageStore'
     import StickerForm from './forms/StickerForm.svelte'
     import StickerPreview from './StickerPreview.svelte'
@@ -9,7 +10,7 @@
     import { fade, slide } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
     import Header from './ui/Header.svelte'
-    
+
     async function handleSubmit({ prompt }) {
       try {
         $isLoading = true
@@ -22,7 +23,7 @@
         $isLoading = false
       }
     }
-    
+
     async function handleSaveSticker() {
       if ($generatedImage) {
         try {
@@ -32,11 +33,13 @@
         }
       }
     }
+
   </script>
-  
-  <div class="min-h-screen bg-gradient-to-b from-gray-100 to-white">
-  
-    <Header class="w-full"/>
+
+  <div class="bg-white ">
+  {#if isWeb()}
+    <Header class="w-full" />
+    {/if}
   
     <main class="flex flex-col min-h-[calc(100vh-4rem)] pb-24 w-full max-w-2xl mx-auto">
       <div class="px-4 w-full">
@@ -52,29 +55,24 @@
           {#if $generatedImage}
             <div in:slide={{ duration: 400, delay: 300, easing: quintOut }}
                  out:fade={{ duration: 200 }}>
-              <StickerPreview
-                imageUrl={$generatedImage}
-                onSave={handleSaveSticker}
-              />
+              <StickerPreview imageSrc={$generatedImage}
+              /> 
             </div>
           {:else}
             <section class="py-4"
                      in:slide={{ duration: 400, easing: quintOut }}
                      out:fade={{ duration: 200 }}>
-              <h2 class="flex justify-center text-xl font-semibold text-gray-800 mb-4">
+              <h2 class="flex justify-center text-xl font-semibold font-bold text-apple-gray text-center mb-4">
                 Inspiración para tus stickers
               </h2>
               <ExampleGallery />
             </section>
           {/if}
         </section>
-      </div>
-  
       
-      <div class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm shadow-lg z-10">
         <div class="max-w-2xl mx-auto px-4 py-4">
           <StickerForm onSubmit={handleSubmit} loading={$isLoading} />
         </div>
-      </div>
+      
     </main>
   </div> 

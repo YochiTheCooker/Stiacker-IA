@@ -3,7 +3,7 @@ import Button from './ui/Button.svelte';
 import Card from './ui/Card.svelte';
 import { saveImageAsSticker } from '../services/stickerService';
 
-export let imageSrc;
+export let imageSrc
 const handleSaveSticker = async () => {
   try {
     await saveImageAsSticker(imageSrc, 'sticker');

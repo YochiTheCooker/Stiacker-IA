@@ -9,8 +9,8 @@
 
 <div class="space-y-1">
   {#if label}
-    <label for={id} class="block text-sm font-medium text-gray-700">
-      {label}
+    <label for={id} class="block text-sm font-medium text-white">
+      {label}    
     </label>
   {/if}
   {#if type === 'password'}
@@ -20,7 +20,7 @@
       {placeholder}
       {required}
       bind:value
-      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all "
+      class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-800 outline-none"
     />
   {:else}
     <input
@@ -29,7 +29,7 @@
       {placeholder}
       {required}
       bind:value
-      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all "
+      class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-800 outline-none"
     />
   {/if}
 </div> 
