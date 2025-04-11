@@ -10,6 +10,9 @@
     "vercel-build": "npm install && npx vite build --outDir dist && node ./vercel-setup.js"
   },
   "dependencies": {
+    "@capacitor/cli": "7.2.0",
+    "@capacitor/core": "7.2.0",
+    "@capacitor/share": "7.0.1",
     "@sveltejs/adapter-vercel": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -19,7 +22,6 @@
     "tailwindcss": "^3.3.2",
     "vite": "^5.0.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=18.0.0"
   }

@@ -1,16 +1,13 @@
 
+import { createAndShareWhatsappSticker } from './StickerManager';
 
-export async function saveImageAsSticker(imageUrl) {
+export async function saveImageAsSticker(imageUrl, stickerName) {
   try {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `sticker-${Date.now()}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    await createAndShareWhatsappSticker(imageUrl, stickerName);
     return;
   } catch (error) {
     console.error('Error al guardar el sticker:', error);
     throw new Error('No se pudo guardar el sticker');
   }
-} 
+}
+
