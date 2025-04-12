@@ -10,7 +10,7 @@
   };
 </script>
 
-<button {type} on:click class="w-full sm:w-auto font-medium py-3 px-6 rounded-xl transform transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed {variants[variant]} {fullWidth ? 'w-full' : ''} justify-center">
+<button {type} on:click class="sm:w-auto font-medium py-3 px-6 rounded-xl transform transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed {variants[variant]} {fullWidth ? 'w-full' : ''} justify-center">
   {#if isloading}
     <span class="bg-gradient-to-r from-black to-orange-500 text-white">
       ⌛

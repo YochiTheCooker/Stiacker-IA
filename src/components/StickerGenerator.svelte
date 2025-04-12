@@ -16,7 +16,6 @@
 
     onMount(() => {
       // Instantiate the worker
-      // The { type: 'module' } might be necessary depending on your bundler setup for workers
       sanitizeWorker = new Worker(new URL('../workers/sanitize.worker.js', import.meta.url), { type: 'module' });
 
       // Handle messages received from the worker
@@ -81,41 +80,42 @@
     <Header class="w-full" />
     {/if}
   
-    <main class="flex flex-col min-h-[calc(100vh-4rem)] pb-24 w-full max-w-2xl mx-auto">
-      <div class="px-4 w-full">
-        
-        <section class="py-6">
-          {#if $error}
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-4"
-                 in:slide={{ duration: 300, easing: quintOut }}
-                 out:fade={{ duration: 200 }}>
-              <!-- Render the already sanitized HTML from the store -->
-              <p class="text-red-700">{@html $error}</p> 
-            </div>
-          {/if}
-          {#if $generatedImage}
-            <div in:slide={{ duration: 400, delay: 300, easing: quintOut }}
-                 out:fade={{ duration: 200 }}>
-              <StickerPreview 
-                imageSrc={$generatedImage} 
-                onSave={handleSaveSticker}
-              /> 
-            </div>
-          {:else}
-            <section class="py-4"
-                     in:slide={{ duration: 400, easing: quintOut }}
-                     out:fade={{ duration: 200 }}>
-              <h2 class="flex justify-center text-xl font-bold text-apple-gray text-center mb-4">
-                Inspiración para tus stickers
-              </h2>
-              <ExampleGallery/>
-            </section>
-          {/if}
-        </section>
-      
-        <div class="max-w-2xl mx-auto px-4 py-4">
-          <StickerForm onSubmit={handleSubmit} loading={$isLoading} />
-        </div>
-      
+    <!-- Adjusted min-height calculation if needed, added padding-bottom -->
+    <main class="flex-grow overflow-y-auto px-4 pb-28 w-full max-w-2xl mx-auto">
+      <section class="py-6">
+        {#if $error}
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-4"
+               in:slide={{ duration: 300, easing: quintOut }}
+               out:fade={{ duration: 200 }}>
+            <!-- Render the already sanitized HTML from the store -->
+            <p class="text-red-700">{@html $error}</p> 
+          </div>
+        {/if}
+        {#if $generatedImage}
+          <div in:slide={{ duration: 400, delay: 300, easing: quintOut }}
+               out:fade={{ duration: 200 }}>
+            <StickerPreview 
+              imageSrc={$generatedImage} 
+              onSave={handleSaveSticker}
+            /> 
+          </div>
+        {:else}
+          <section class="py-4"
+                   in:slide={{ duration: 400, easing: quintOut }}
+                   out:fade={{ duration: 200 }}>
+            <h2 class="flex justify-center text-xl font-bold text-apple-gray text-center mb-4">
+              Inspiración para tus stickers
+            </h2>
+            <ExampleGallery/>
+          </section>
+        {/if}
+      </section>
     </main>
+
+    <!-- Form moved outside main, added fixed positioning and background -->
+    <div class="fixed bottom-0 left-0 right-0 z-10 bg-white p-4 border-t border-gray-200">
+       <div class="max-w-2xl mx-auto"> <!-- Optional: Constrain form width -->
+         <StickerForm onSubmit={handleSubmit} loading={$isLoading} />
+       </div>
+    </div>
   </div>

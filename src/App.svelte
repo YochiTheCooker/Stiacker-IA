@@ -12,8 +12,10 @@
 	});
 </script>
 
-<main class="text-black w-full bg-white">
-	<div class="text-black w-full bg-white">
-		<LazyStickerGenerator imageSrc={selectedImage} />	
+<main class="text-black w-full bg-white flex flex-col h-screen">
+	<!-- Added flex flex-col h-screen -->
+	<div class="text-black w-full bg-white flex-grow overflow-y-auto">
+		<!-- Added flex-grow overflow-y-auto -->
+		<LazyStickerGenerator imageSrc={selectedImage} />
 	</div>
 </main>
