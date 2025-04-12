@@ -21,12 +21,12 @@
     >
       {#each examples as example}
         <div class="relative group cursor-pointer bg-white rounded-lg shadow-sm hover:shadow-md">
-          <div class="rounded-lg overflow-hidden bg-gray-100">
+          <div class="rounded-lg overflow-hidden bg-gray-100 h-48"> <!-- Added h-48 here -->
             <!-- Removed lazy loading logic, load image directly -->
             <img
               src={example.image}
               alt={example.prompt}
-              class="w-full h-full object-cover max-h-full max-w-[25rem]"
+              class="w-full h-full object-cover"
             />
           </div>
           <div
