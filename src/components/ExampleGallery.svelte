@@ -1,34 +1,14 @@
 <script>
-
   export let examples = [
     {
-      image: "examples/example1.webp",
+      image: "/examples/example1.webp", // Added leading slash for root path
       prompt: "Gato astronauta!",
     },
     {
-      image: "examples/example2.webp",
-      prompt: "pato tejido!", 
-    },    
+      image: "/examples/example2.webp", // Added leading slash for root path
+      prompt: "pato tejido!",
+    },
   ];
-
-  let observer;
-  let isIntersecting = {};
-
-  const handleIntersection = (entries) => {
-    entries.forEach((entry) => {
-      isIntersecting[entry.target.dataset.index] = entry.isIntersecting;
-    });
-  };
-
-  import { onMount } from "svelte";
-  onMount(() => {
-    observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.1,
-    });
-    document.querySelectorAll(".lazy").forEach((img) => {
-      observer.observe(img);
-    });
-  });
 </script>
 
 <div class="w-full max-w-2xl mx-auto">
@@ -42,21 +22,12 @@
       {#each examples as example}
         <div class="relative group cursor-pointer bg-white rounded-lg shadow-sm hover:shadow-md">
           <div class="rounded-lg overflow-hidden bg-gray-100">
-            {#key isIntersecting}
-              {#if isIntersecting[examples.indexOf(example)]}
-                <img
-                  src={example.image}
-                  alt={example.prompt}
-                  class="w-full h-full object-cover max-h-full max-w-[25rem]"
-                />
-              {:else}
-                <div
-                  class="lazy w-full h-full object-cover max-h-full max-w-[25rem]"
-                  data-index={examples.indexOf(example)}
-                >
-                </div>
-              {/if}
-            {/key}
+            <!-- Removed lazy loading logic, load image directly -->
+            <img
+              src={example.image}
+              alt={example.prompt}
+              class="w-full h-full object-cover max-h-full max-w-[25rem]"
+            />
           </div>
           <div
             class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center p-2"
