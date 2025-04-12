@@ -42,7 +42,7 @@
 </script>
 
 <div>
-  <img id="image" src={imageSrc} alt="Image to edit" />
+  <img src={imageSrc} alt="Imagen para editar" />
   <button on:click={addText}>Agregar Texto</button>
   <button on:click={saveImage}>Guardar Sticker</button>
   <canvas id="canvas"></canvas>
