@@ -1,4 +1,3 @@
-
 <script>
     import { generateImage } from '../services/imageService'
     import { saveImageAsSticker } from '../services/stickerService'
@@ -10,6 +9,7 @@
     import { quintOut } from 'svelte/easing'
     import Header from './ui/Header.svelte'
     import ExampleGallery from './ExampleGallery.svelte'
+    import DOMPurify from 'dompurify'
 
     async function handleSubmit({ prompt }) {
       try {
@@ -18,7 +18,10 @@
         const imageUrl = await generateImage(prompt)
         $generatedImage = imageUrl
       } catch (err) {
-        $error = err.message
+        console.error('Error en generación:', 
+          import.meta.env.PROD ? 'Error de generación' : err);
+        
+        $error = DOMPurify.sanitize(err.message)
       } finally {
         $isLoading = false
       }
@@ -29,7 +32,7 @@
         try {
           await saveImageAsSticker($generatedImage)
         } catch (err) {
-          $error = 'Error al guardar el sticker: ' + err.message
+          $error = DOMPurify.sanitize('Error al guardar el sticker: ' + err.message)
         }
       }
     }
@@ -49,13 +52,15 @@
             <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-4"
                  in:slide={{ duration: 300, easing: quintOut }}
                  out:fade={{ duration: 200 }}>
-              <p class="text-red-700">{$error}</p>
+              <p class="text-red-700">{@html DOMPurify.sanitize($error)}</p>
             </div>
           {/if}
           {#if $generatedImage}
             <div in:slide={{ duration: 400, delay: 300, easing: quintOut }}
                  out:fade={{ duration: 200 }}>
-              <StickerPreview imageSrc={$generatedImage}
+              <StickerPreview 
+                imageSrc={$generatedImage} 
+                onSave={handleSaveSticker}
               /> 
             </div>
           {:else}
