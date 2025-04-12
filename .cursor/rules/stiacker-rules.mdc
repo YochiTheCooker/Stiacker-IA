@@ -5,10 +5,8 @@ alwaysApply: true
 ---
 
 # Your rule content
-
 - This is a capacitor/svelte/tailwindCSS app for andriod
 - Always try to implement clean architecture
 - Always keep in mind the security of the application
 - Always respond in spanish
 - Always make maintainable codecode
-- Do only what you are asked to do, do not touch things unless it is really necessary.

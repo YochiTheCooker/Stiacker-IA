@@ -1,6 +1,6 @@
 import { sanitizeInput, validatePrompt } from './securityUtils';
 
-const API_URL = 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2';
+const API_URL = 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-3.5-large';
 const API_KEY = import.meta.env.VITE_HUGGINGFACE_API_KEY;
 
 // Validar que la API Key esté configurada
