@@ -1,4 +1,4 @@
-# LlamaSticker
+# Stiacker IA
 
 Una aplicación móvil para generar stickers de WhatsApp usando inteligencia artificial.
 
