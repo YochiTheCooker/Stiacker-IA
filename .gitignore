@@ -19,17 +19,8 @@ yarn-error.log*
 # Excluir archivos temporales de Vite (ej: vite.config.js.timestamp-*)
 vite.config.js.timestamp-*
 
-# Firebase - Configuración y datos sensibles
-firebase.json
-.firebaserc
-.firebase/
-firestore.indexes.json
-firestore.rules
-storage.rules
-firebase-debug.log
-# Si usas Firebase Functions:
-firebase-functions/
-
+.cursor/rules
+.idx
 # Editor directories and files
 .vscode/
 .idea/
