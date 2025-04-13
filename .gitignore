@@ -8,10 +8,27 @@ node_modules/
 # Build
 /dist/
 
+#.DS_Store macOS
+.DS_Store
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Excluir archivos temporales de Vite (ej: vite.config.js.timestamp-*)
+vite.config.js.timestamp-*
+
+# Firebase - Configuración y datos sensibles
+firebase.json
+.firebaserc
+.firebase/
+firestore.indexes.json
+firestore.rules
+storage.rules
+firebase-debug.log
+# Si usas Firebase Functions:
+firebase-functions/
 
 # Editor directories and files
 .vscode/
