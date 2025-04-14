@@ -2,6 +2,7 @@
 import Button from './ui/Button.svelte';
 import Card from './ui/Card.svelte';
 import { saveImageAsSticker } from '../services/stickerService';
+import StickerShare from './StickerShare.svelte';
 
 export let imageSrc;
 
@@ -28,3 +29,5 @@ const handleSaveSticker = async () => {
   </div>
 </div>
 </Card>
+
+<StickerShare {imageSrc} />

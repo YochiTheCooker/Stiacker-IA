@@ -1,4 +1,6 @@
 import { validateImageUrl } from './securityUtils';
+import { Capacitor } from '@capacitor/core';
+import { Http } from '@capacitor-community/http';
 
 /**
  * Guarda una imagen como sticker para su uso posterior
@@ -37,6 +39,36 @@ export async function saveImageAsSticker(imageUrl) {
   } catch (error) {
     console.error('Error al guardar el sticker:', error);
     throw new Error('No se pudo guardar el sticker: ' + error.message);
+  }
+}
+
+const API_URL = 'https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev';
+
+export async function generarImagen(prompt) {
+  const body = { inputs: prompt };
+  const headers = {
+    'Authorization': 'Bearer TU_API_KEY',
+    'Content-Type': 'application/json'
+  };
+
+  if (Capacitor.isNativePlatform()) {
+    // Usar el plugin HTTP de Capacitor en Android/iOS
+    const response = await Http.post({
+      url: API_URL,
+      headers,
+      data: body,
+    });
+    // Si la imagen viene en base64:
+    const base64Image = response.data.image; // Ajusta según la estructura real
+    return `data:image/png;base64,${base64Image}`;
+  } else {
+    // Usar fetch en web
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+    });
+    return await response.json();
   }
 }
 
