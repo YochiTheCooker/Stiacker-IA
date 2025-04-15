@@ -47,7 +47,8 @@ export async function generateImage(prompt) {
       const response = await Http.post({
         url: API_URL,
         headers: headers || {},
-        data: body || {}, // Nunca null ni undefined
+        data: body || {},
+        params: {}
       });
       console.log('Respuesta HuggingFace (nativo):', response);
 
