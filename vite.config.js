@@ -15,6 +15,13 @@ export default defineConfig(({ mode }) => {
       assetsDir: "assets",
       emptyOutDir: true
     },
-    server: {}
+    server: {
+      proxy: {
+      '/api': {
+        target: 'https://api-inference.huggingface.co',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }}
   };
 });

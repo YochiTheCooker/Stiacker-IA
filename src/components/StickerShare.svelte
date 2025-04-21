@@ -1,5 +1,5 @@
 <script>
-  import { convertToWebP, guardarStickerWebP, compartirStickerWebP } from '../services/stickerManager.js';
+  import { convertToWebP, guardarStickerWebP, compartirStickerWebP } from '../services/StickerManager.js';
   export let imageSrc;
   let guardando = false;
   let mensaje = '';

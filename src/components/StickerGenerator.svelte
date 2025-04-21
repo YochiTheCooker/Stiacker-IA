@@ -1,29 +1,29 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import { generateImage } from '../services/imageService'
-    import { saveImageAsSticker } from '../services/stickerService'
-    import { isWeb } from '../services/utils'
-    import { generatedImage, isLoading, error } from '../stores/imageStore'
-    import StickerForm from './forms/StickerForm.svelte'
-    import StickerPreview from './StickerPreview.svelte'
-    import { fade, slide } from 'svelte/transition'
-    import { quintOut } from 'svelte/easing'
-    import Header from './ui/Header.svelte'
-    import ExampleGallery from './ExampleGallery.svelte'
-    // Removed direct DOMPurify import
+    import { generateImage } from '../services/imageService';
+    import { isWeb } from '../services/utils';
+    import { generatedImage, isLoading, error } from '../stores/imageStore';
+    import StickerForm from './forms/StickerForm.svelte';
+    import StickerPreview from './StickerPreview.svelte';
+    import { fade, slide } from 'svelte/transition';
+    import { quintOut } from 'svelte/easing';
+    import Header from './ui/Header.svelte';
+    import ExampleGallery from './ExampleGallery.svelte';
+    import Loader from './ui/Loader.svelte';
+  
 
     let sanitizeWorker = null;
 
     onMount(() => {
-      // Instantiate the worker
+    
       sanitizeWorker = new Worker(new URL('../workers/sanitize.worker.js', import.meta.url), { type: 'module' });
 
-      // Handle messages received from the worker
+ 
       sanitizeWorker.onmessage = (event) => {
         $error = event.data; // Update the store with sanitized HTML from the worker
       };
 
-      // Optional: Handle worker errors
+ 
       sanitizeWorker.onerror = (err) => {
         console.error('Sanitize worker error:', err);
         $error = 'Error displaying message.'; // Fallback error
@@ -57,22 +57,6 @@
       }
     }
 
-    async function handleSaveSticker() {
-      if ($generatedImage) {
-        try {
-          await saveImageAsSticker($generatedImage)
-        } catch (err) {
-           console.error('Error saving sticker:', err);
-          // Send the raw error message to the worker for sanitization
-          if (sanitizeWorker) {
-             sanitizeWorker.postMessage('Error al guardar el sticker: ' + (err.message || 'Unknown save error'));
-          } else {
-             $error = 'Could not process error message.'; // Fallback if worker failed to load
-          }
-        }
-      }
-    }
-
   </script>
 
   <div class="bg-white" transition:fade={{ duration: 700 }}>
@@ -83,6 +67,9 @@
     <!-- Adjusted min-height calculation if needed, added padding-bottom -->
     <main class="flex-grow overflow-y-auto px-4 pb-28 w-full max-w-2xl mx-auto">
       <section class="py-6">
+        {#if $isLoading}
+      <Loader text="Generando tu sticker" />
+        {:else}
         {#if $error}
           <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-4"
                in:slide={{ duration: 300, easing: quintOut }}
@@ -92,13 +79,10 @@
           </div>
         {/if}
         {#if $generatedImage}
-          <div in:slide={{ duration: 400, delay: 300, easing: quintOut }}
-               out:fade={{ duration: 200 }}>
-            <StickerPreview 
-              imageSrc={$generatedImage} 
-              onSave={handleSaveSticker}
-            /> 
-          </div>
+        <div class="justify-center">
+          
+          <StickerPreview imageSrc={$generatedImage} />
+        </div>
         {:else}
           <section class="py-4"
                    in:slide={{ duration: 400, easing: quintOut }}
@@ -108,6 +92,7 @@
             </h2>
             <ExampleGallery/>
           </section>
+          {/if}
         {/if}
       </section>
     </main>

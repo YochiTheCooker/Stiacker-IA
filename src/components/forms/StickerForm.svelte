@@ -1,6 +1,8 @@
 <script>
   import Button from '../ui/Button.svelte';
   import { validatePrompt, sanitizeInput } from '../../services/securityUtils';
+  import { fade } from 'svelte/transition';
+
 
   export let onSubmit;
   export let loading = false;
@@ -30,36 +32,39 @@
   }
 </script>
 
+
+  
+  
+{#if !loading}
 <form 
   on:submit|preventDefault={handleSubmit} 
   class="flex items-center gap-2"
+  transition:fade={{ duration: 650 }}
 >
-  <div class="flex-grow min-w-[60px]">
-    <input
-      type="text"
-      bind:value={prompt}
-      placeholder="Describe tu sticker..."
-      required
-      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all"
-      aria-label="Descripción del sticker"
-      maxlength="500"
-    />
+ 
+<div class="flex-grow min-w-[60px]">
+  <input
+    type="text"
+    bind:value={prompt}
+    placeholder="Describe tu sticker..."
+    required
+    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-apple-purple focus:border-transparent transition-all"
+    aria-label="Descripción del sticker"
+    maxlength="500"
+  />
 
-    {#if validationError}
-      <p class="text-red-600 text-xs mt-1">{validationError}</p>
-    {/if}
-  </div>
-  
-  <Button 
-    type="submit" 
-    loading={loading} 
-    fullWidth={false} 
-    class="px-4 py-3 rounded-xl flex-shrink-0 text-sm sm:text-base"
-  >
-    {#if loading}
-      <span class="animate-spin">⌛</span>
-    {:else}
-      <span aria-label="Enviar">Enviar</span>
-    {/if}
-  </Button>
+  {#if validationError}
+    <p class="text-red-600 text-xs mt-1">{validationError}</p>
+  {/if}
+</div>
+<Button 
+  type="submit" 
+  loading={loading} 
+  fullWidth={false} 
+  class="px-4 py-3 rounded-xl flex-shrink-0 text-sm sm:text-base"
+>
+  <span aria-label="Enviar">Enviar</span>
+</Button>
+
 </form>
+{/if}

@@ -12,8 +12,8 @@ if (!API_KEY) {
 
 /**
  * Genera una imagen a partir de un prompt utilizando la API de Hugging Face
- * @param {string} prompt - Descripción textual de la imagen a generar
- * @returns {Promise<string>} URL de la imagen generada
+ * param {string} prompt - Descripción textual de la imagen a generar
+ * returns {Promise<string>} URL de la imagen generada
  */
 export async function generateImage(prompt) {
   try {
@@ -46,9 +46,9 @@ export async function generateImage(prompt) {
 
       const response = await Http.post({
         url: API_URL,
-        headers: headers || {},
-        data: body || {},
-        params: {}
+        headers: {'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type': 'application/json'},
+        data: {inputs: prompt },
       });
       console.log('Respuesta HuggingFace (nativo):', response);
 
@@ -68,17 +68,24 @@ export async function generateImage(prompt) {
         headers,
         body: JSON.stringify(body),
       });
-      const data = await response.json();
-      console.log('Respuesta HuggingFace (web):', data);
 
-      if (!response.ok) {
-        throw new Error(`Error de API: ${response.status} - ${data?.error || 'Sin mensaje'}`);
-      }
-
-      if (data && data[0] && data[0].image) {
-        return data[0].image;
+      // Verifica el tipo de contenido
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.startsWith('image/')) {
+        // Si es una imagen, conviértela a blob y luego a URL
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
       } else {
-        throw new Error('La respuesta de la API no contiene la imagen esperada.');
+        // Si es JSON, procesa normalmente
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(`Error de API: ${response.status} - ${data?.error || 'Sin mensaje'}`);
+        }
+        if (data && data[0] && data[0].image) {
+          return data[0].image;
+        } else {
+          throw new Error('La respuesta de la API no contiene la imagen esperada.');
+        }
       }
     }
   } catch (error) {

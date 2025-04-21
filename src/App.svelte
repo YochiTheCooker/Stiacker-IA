@@ -1,6 +1,5 @@
 <script>
 	import LazyStickerGenerator from './components/LazyStickerGenerator.svelte';
-	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { selectedImageStore } from './stores/imageStore';
 	import { get } from 'svelte/store';
