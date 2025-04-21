@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">        npm install @capacitor/android        npx cap add android</string>
-    <string name="title_activity_main">        npm install @capacitor/android        npx cap add android</string>
-    <string name="package_name">com.example.stiackeria</string>
-    <string name="custom_url_scheme">com.example.stiackeria</string>
-</resources>
